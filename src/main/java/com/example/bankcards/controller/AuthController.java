@@ -1,10 +1,11 @@
-package com.example.bankcards.auth.controller;
+package com.example.bankcards.controller;
 
-import com.example.bankcards.auth.dto.AuthRequest;
-import com.example.bankcards.auth.dto.AuthResponse;
-import com.example.bankcards.auth.dto.RegisterRequest;
-import com.example.bankcards.auth.service.AuthService;
+import com.example.bankcards.dto.auth.AuthRequest;
+import com.example.bankcards.dto.auth.AuthResponse;
+import com.example.bankcards.dto.auth.RegisterRequest;
+import com.example.bankcards.service.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @PreAuthorize("hasRole('ADMIN') or #request.role == null or #request.role.trim().isEmpty()"
+            + " or !#request.role.trim().toUpperCase().contains('ADMIN')")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         String token = authService.register(request);
         return ResponseEntity.ok(new AuthResponse(token));

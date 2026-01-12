@@ -1,4 +1,4 @@
-package com.example.bankcards.auth.dto;
+package com.example.bankcards.dto.auth;
 
 public class RegisterRequest {
     private String username;

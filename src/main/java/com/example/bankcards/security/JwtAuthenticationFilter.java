@@ -1,4 +1,4 @@
-package com.example.bankcards.auth.security;
+package com.example.bankcards.security;
 
 import com.example.bankcards.users.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
