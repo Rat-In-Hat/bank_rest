@@ -44,9 +44,24 @@ public class CardService {
         return toResponse(cardRepository.save(card));
     }
 
+    @Transactional
+    public CardResponse updateCard(Long cardId, LocalDate expirationDate) {
+        Card card = getCardEntity(cardId);
+        validateExpirationDate(expirationDate);
+        card.setExpirationDate(expirationDate);
+        return toResponse(cardRepository.save(card));
+    }
+
     @Transactional(readOnly = true)
     public CardResponse getCard(Long cardId) {
         return toResponse(getCardEntity(cardId));
+    }
+
+    @Transactional(readOnly = true)
+    public List<CardResponse> listAllCards() {
+        return cardRepository.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -66,7 +81,7 @@ public class CardService {
         cardRepository.deleteById(cardId);
     }
 
-    Card getCardEntity(Long cardId) {
+    public Card getCardEntity(Long cardId) {
         return cardRepository.findById(cardId)
                 .orElseThrow(() -> new IllegalArgumentException("Card not found"));
     }
@@ -88,6 +103,15 @@ public class CardService {
             throw new IllegalArgumentException("Balance cannot be negative");
         }
         return balance;
+    }
+
+    private void validateExpirationDate(LocalDate expirationDate) {
+        if (expirationDate == null) {
+            throw new IllegalArgumentException("Expiration date is required");
+        }
+        if (expirationDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Expiration date must be in the future");
+        }
     }
 
     private CardResponse toResponse(Card card) {
