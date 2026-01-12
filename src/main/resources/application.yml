@@ -8,3 +8,9 @@ security:
   jwt:
     secret: "c3VwZXItc2VjcmV0LWtleS1mb3ItZGV2LXRlc3RzLTI1Ni1iaXRz"
     expiration-ms: 3600000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

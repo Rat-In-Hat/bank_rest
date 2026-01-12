@@ -77,6 +77,15 @@
     <li><code>README.md</code> с инструкцией запуска</li>
   </ul>
 
+<h2>📚 OpenAPI и Swagger UI</h2>
+  <ul>
+    <li>Swagger UI: <code>http://localhost:8080/swagger-ui.html</code></li>
+    <li>OpenAPI YAML: <code>http://localhost:8080/v3/api-docs.yaml</code></li>
+  </ul>
+  <p>Чтобы обновить файл <code>docs/openapi.yaml</code> после изменений API:</p>
+  <pre><code>./mvnw spring-boot:run
+curl -o docs/openapi.yaml http://localhost:8080/v3/api-docs.yaml</code></pre>
+
 <h3>✅ Развёртывание и тестирование</h3>
   <ul>
     <li>Docker Compose для dev-среды</li>
